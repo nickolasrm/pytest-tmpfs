@@ -20,7 +20,5 @@ jobs:
         pip install .[test]
         pip uninstall -y pytest-tmpfs
         pytest
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
