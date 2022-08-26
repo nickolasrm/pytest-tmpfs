@@ -20,5 +20,5 @@ jobs:
         pip install .[test]
         pip uninstall -y pytest-tmpfs
         pytest
-    - name: Publish coverage
-      uses: AndreMiras/coveralls-python-action@v20201129
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@1.1.3
