@@ -16,5 +16,5 @@ jobs:
       - name: Generating wheel
         run: python -m build --wheel
       - name: Uploading to pypy
-        run: twine upload .\dist\* --non-interactive --username nickolasrm --password "${{ secrets.PYPI_PASSWORD }}"
+        run: twine upload ./dist/* --non-interactive --username nickolasrm --password "${{ secrets.PYPI_PASSWORD }}"
        
