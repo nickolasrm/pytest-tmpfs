@@ -18,11 +18,16 @@ def readjson(path: str) -> dict:
     return json.load(f)
 ```
 
-This plugin is a fake filesystem management implementation that relies on the `pytest`'s `tmp_path` fixture to enable safe testing of projects that require disk operations and are difficult to mock. See [pyfakefs](https://pypi.org/project/pyfakefs/), it can be a good alternative if you wish to mock filesystem operations.
+This plugin is a fake filesystem manager implementation that relies on the `pytest`'s `tmp_path` fixture to enable safe testing of projects that require disk operations and are difficult to mock.
+
+## Alternatives
+
+- [pyfakefs](https://pypi.org/project/pyfakefs/): good alternative if you wish to mock filesystem operations.
+- [tempfile](https://docs.python.org/3/library/tempfile.html): creates files and directories temporarily.
 
 ## Install
 
-For installing this package, just type the code below in your terminal: 
+For installing this package, just type the command below in your terminal:
 
 ```
 pip install pytest-tmpfs
@@ -32,7 +37,7 @@ pip install pytest-tmpfs
 
 ### As a fixture
 
-You can use the `TmpFs` as a fixture by passing tmpfs as an argument of your test function.
+You can use the `TmpFs` as a fixture by passing `tmpfs` as an argument of your test function.
 
 ```python
 import pytest_tmpfs
@@ -59,7 +64,7 @@ def fscheck(path: str) -> dict:
 
 ### Your own instance
 
-If you seek to use this plugin without pointing to `tmp_path` it is possible to create your own instance and manipulate it the way you want.
+If you seek to use this plugin without pointing to `tmp_path` it is possible to create your own instance and to manipulate it the way you want.
 
 ```python
 import pytest_tmpfs
@@ -94,6 +99,4 @@ The following table contains all methods that `TmpFs` implements and its descrip
 
 ## Contributing
 
-Feel free to contribute with this project, just remember to install and use pre-commit and to write unit tests for it.
-
-
+Feel free to contribute to this project, just remember to use pre-commit and to write unit tests for new features/bugs.

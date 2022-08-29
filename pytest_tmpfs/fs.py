@@ -7,11 +7,19 @@ from typing import List, Union
 
 
 class TmpFs:
-    """Creates a temporary file system for testing.
+    """Creates a temporary file system manager for testing.
+
+    This plugin is a fake filesystem management implementation that relies on
+    the pytest's tmp_path fixture to enable safe testing of projects that
+    require disk operations and are difficult to mock.
+
+    Alternatives:
+        pyfakefs: mocks python io functions
+        tempfile: creates temporary files and folders
 
     Attributes:
         tmp_path (Path): Path to the temporary file system.
-        original_cwd (str | None): Original current working directory.
+        original_cwd (str): Original current working directory.
     """
 
     tree_space = '    '
@@ -52,7 +60,6 @@ class TmpFs:
             str: Absolute path to the file.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> fs.path('a/b/c.txt')  # doctest: +ELLIPSIS
             '.../a/b/c.txt'
         """
@@ -69,7 +76,6 @@ class TmpFs:
             str: Absolute path to the file.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.write('b/c/d.txt', 'Hello, world!')
             >>> fs.read('b/c/d.txt')
             'Hello, world!'
@@ -89,7 +95,6 @@ class TmpFs:
             str: Absolute path to the file.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('c/d/e.txt')  # doctest: +ELLIPSIS
             >>> fs.ls('c/d')
             ['e.txt']
@@ -106,7 +111,6 @@ class TmpFs:
             str: Absolute path to the folder.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.mkdir('d/e/f')
             >>> fs.ls('d/e')
             ['f']
@@ -125,7 +129,6 @@ class TmpFs:
             bool: True if the file or folder was removed, False otherwise.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('e/f/g.txt')
             >>> fs.rm('e/f/g.txt')
             True
@@ -148,7 +151,6 @@ class TmpFs:
         """Removes the files and folders in the temporary file system.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('f/g/h.txt')
             >>> fs.ls('.')  # doctest: +ELLIPSIS
             [...'f'...]
@@ -172,7 +174,6 @@ class TmpFs:
             str: Absolute path to the moved file or folder.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.write('i/j/k.txt', 'abc')
             >>> _ = fs.mkdir('l/m')
             >>> _ = fs.mv('i/j/k.txt', 'l/m/n.txt')
@@ -194,7 +195,6 @@ class TmpFs:
             List[str]: Sorted list of files and folders in the specified path.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('o/p/q.txt')
             >>> _ = fs.mkdir('o/p/s')
             >>> fs.ls('o/p')
@@ -234,7 +234,6 @@ class TmpFs:
             str: Visual tree structure of the specified folder.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('r/s/t.txt')
             >>> _ = fs.mkdir('r/s/u')
             >>> fs.tree_format('r/s')
@@ -250,7 +249,6 @@ class TmpFs:
             path (str): Relative path to the folder.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.touch('s/t/u.txt')
             >>> _ = fs.mkdir('s/t/v')
             >>> _ = fs.touch('s/w/x.txt')
@@ -273,7 +271,6 @@ class TmpFs:
             str: Contents of the file.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.write('y/z/a.txt', 'abc')
             >>> fs.read('y/z/a.txt')
             'abc'
@@ -290,7 +287,6 @@ class TmpFs:
             str: Contents of the file.
 
         Example:
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.write('b/c/d.txt', 'abc\ndef')
             >>> fs.cat('b/c/d.txt')
             abc
@@ -308,7 +304,6 @@ class TmpFs:
             >>> import os
             >>> cwd = os.path.dirname(os.path.abspath(__file__))
             >>> os.chdir(cwd)
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.tmp_cwd()
             >>> os.getcwd() == cwd
             False
@@ -339,7 +334,6 @@ class TmpFs:
             >>> import os
             >>> cwd = os.path.dirname(os.path.abspath(__file__))
             >>> os.chdir(cwd)
-            >>> fs = TmpFs(tmp_path)
             >>> _ = fs.tmp_cwd()
             >>> os.getcwd() == cwd
             False
